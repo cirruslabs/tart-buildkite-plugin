@@ -12,4 +12,6 @@ configuration:
       type: string
     ssh_password:
       type: string
+  required:
+    - image
   additionalProperties: false
