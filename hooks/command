@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/sh
 
 # Set shell options to enable fail-fast behavior
 #
