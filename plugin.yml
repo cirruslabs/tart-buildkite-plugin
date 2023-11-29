@@ -1,0 +1,17 @@
+name: Tart
+description: Runs your build steps in Tart Virtual Machines
+author: https://github.com/cirruslabs
+requirements:
+  - tart
+  - sshpass
+configuration:
+  properties:
+    image:
+      type: string
+    ssh_username:
+      type: string
+    ssh_password:
+      type: string
+  required:
+    - image
+  additionalProperties: false

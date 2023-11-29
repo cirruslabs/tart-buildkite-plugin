@@ -1,0 +1,6 @@
+task:
+  name: Lint
+  container:
+    image: buildkite/plugin-linter:latest
+  script:
+    - lint --id cirruslabs/tart --path .
