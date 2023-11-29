@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# Set shell options to enable fail-fast behavior
+#
+# * -e: fail the script when an error occurs or command fails
+# * -u: fail the script when attempting to reference unset parameters
+# * -o pipefail: by default an exit status of a pipeline is that of its
+#                last command, this fails the pipe early if an error in
+#                any of its commands occurs
+#
+set -euo pipefail
+
+# Include shared variables and functions
+. ../lib/shared.sh
+
+# Clone the VM
+NO_IMAGE_ERROR="Please specify a VM image to use (e.g. ghcr.io/cirruslabs/macos-sonoma-base:latest)"
+
+tart clone "${BUILDKITE_PLUGIN_TART_IMAGE:?[NO_IMAGE_ERROR]}" "${VM_NAME}"
+
+# Run the VM in the background
+nohup tart run "${VM_NAME}" >/dev/null 2>&1 &

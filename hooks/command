@@ -1,0 +1,23 @@
+#!/bin/zsh
+
+# Set shell options to enable fail-fast behavior
+#
+# * -e: fail the script when an error occurs or command fails
+# * -u: fail the script when attempting to reference unset parameters
+# * -o pipefail: by default an exit status of a pipeline is that of its
+#                last command, this fails the pipe early if an error in
+#                any of its commands occurs
+#
+set -euo pipefail
+
+# Include shared variables and functions
+. ../lib/shared.sh
+
+# Wait for the VM to boot and retrieve its IP
+VM_IP=$(tart ip --wait 60 "${VM_NAME}")
+
+# Execute the command on the VM
+SSH_USERNAME="${BUILDKITE_PLUGIN_TART_SSH_USERNAME:-[admin]}"
+SSH_PASSWORD="${BUILDKITE_PLUGIN_TART_SSH_PASSWORD:-[admin]}"
+
+sshpass -p "${SSH_PASSWORD}" ssh -o "StrictHostKeyChecking=no" "${SSH_USERNAME}@${VM_IP}" "${BUILDKITE_COMMAND}"
