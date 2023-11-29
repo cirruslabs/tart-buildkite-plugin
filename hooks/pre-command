@@ -13,12 +13,12 @@ set -euo pipefail
 # Include shared variables and functions
 HOOKS_DIR=$(dirname -- "${BASH_SOURCE[0]}")
 HOOKS_DIR_ABSOLUTE=$(cd -- "${HOOKS_DIR}" && pwd)
-. "${HOOKS_DIR_ABSOLUTE}/../lib/shared.sh"
+. "${HOOKS_DIR_ABSOLUTE}/../lib/shared"
 
 # Clone the VM
 NO_IMAGE_ERROR="Please specify a VM image to use (e.g. ghcr.io/cirruslabs/macos-sonoma-base:latest)"
 
-tart clone "${BUILDKITE_PLUGIN_TART_IMAGE:?[NO_IMAGE_ERROR]}" "${VM_NAME}"
+tart clone "${BUILDKITE_PLUGIN_TART_IMAGE:?"${NO_IMAGE_ERROR}"}" "${VM_NAME}"
 
 # Run the VM in the background
 nohup tart run "${VM_NAME}" >/dev/null 2>&1 &
