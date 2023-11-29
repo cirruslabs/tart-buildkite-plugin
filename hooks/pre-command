@@ -11,7 +11,9 @@
 set -euo pipefail
 
 # Include shared variables and functions
-. ../lib/shared.sh
+HOOKS_DIR=$(dirname -- "${0}")
+HOOKS_DIR_ABSOLUTE=$(cd -- "${HOOKS_DIR}" && pwd)
+. "${HOOKS_DIR_ABSOLUTE}/../lib/shared.sh"
 
 # Clone the VM
 NO_IMAGE_ERROR="Please specify a VM image to use (e.g. ghcr.io/cirruslabs/macos-sonoma-base:latest)"

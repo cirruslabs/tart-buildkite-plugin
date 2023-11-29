@@ -11,7 +11,9 @@
 set -euo pipefail
 
 # Include shared variables and functions
-. ../lib/shared.sh
+HOOKS_DIR=$(dirname -- "${0}")
+HOOKS_DIR_ABSOLUTE=$(cd -- "${HOOKS_DIR}" && pwd)
+. "${HOOKS_DIR_ABSOLUTE}/../lib/shared.sh"
 
 # Wait for the VM to boot and retrieve its IP
 VM_IP=$(tart ip --wait 60 "${VM_NAME}")

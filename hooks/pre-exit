@@ -11,7 +11,9 @@
 set -euo pipefail
 
 # Include shared variables and functions
-. ../lib/shared.sh
+HOOKS_DIR=$(dirname -- "${0}")
+HOOKS_DIR_ABSOLUTE=$(cd -- "${HOOKS_DIR}" && pwd)
+. "${HOOKS_DIR_ABSOLUTE}/../lib/shared.sh"
 
 # Stop the VM
 tart stop "${VM_NAME}"
