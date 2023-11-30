@@ -12,6 +12,12 @@ configuration:
       type: string
     ssh_password:
       type: string
+    headless:
+      type: boolean
+    always_pull:
+      type: boolean
+    softnet:
+      type: boolean
   required:
     - image
   additionalProperties: false

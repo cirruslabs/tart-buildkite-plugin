@@ -34,10 +34,32 @@ steps:
 
 Tart VM image to use.
 
-### `ssh_username` (`string`, optional, defaults to `admin`)
+### `ssh_username` (`string`, optional)
 
 Username to use when connecting to the VM via SSH.
 
-### `ssh_password` (`string`, optional, defaults to `admin`)
+Defaults to `admin`.
+
+### `ssh_password` (`string`, optional)
 
 Password to use when connecting to the VM via SSH.
+
+Defaults to `admin`.
+
+### `headless` (`boolean`, optional)
+
+Whether to run the VM in headless mode (`true`) or with GUI (`false`).
+
+Defaults to `true`.
+
+### `always_pull` (`boolean`, optional)
+
+Whether to always pull the VM using `tart pull` before `tart clone` (`true`) or not (`false`).
+
+Defaults to `true`.
+
+### `softnet` (`boolean`, optional)
+
+Whether to enable [software networking isolation for Tart](https://github.com/cirruslabs/softnet) (`true`) or not (`false`).
+
+Defaults to `false`.
