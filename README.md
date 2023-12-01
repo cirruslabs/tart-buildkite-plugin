@@ -24,7 +24,7 @@ Add the following to your `pipeline.yml`:
 steps:
   - command: uname -a
     plugins:
-      - cirruslabs/tart#v0.1.0:
+      - cirruslabs/tart#v0.2.0:
           image: ghcr.io/cirruslabs/macos-sonoma-base:latest
 ```
 
