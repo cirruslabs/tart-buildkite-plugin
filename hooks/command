@@ -23,5 +23,6 @@ SSH_USERNAME="${BUILDKITE_PLUGIN_TART_SSH_USERNAME:-admin}"
 SSH_PASSWORD="${BUILDKITE_PLUGIN_TART_SSH_PASSWORD:-admin}"
 
 sshpass -p "${SSH_PASSWORD}" ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" \
+  -o LogLevel=ERROR \
   "${SSH_USERNAME}@${VM_IP}" \
   "cd /Volumes/My\ Shared\ Files/ && zsh -l -c \"${BUILDKITE_COMMAND}\""
