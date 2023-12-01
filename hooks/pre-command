@@ -15,10 +15,40 @@ HOOKS_DIR=$(dirname -- "${BASH_SOURCE[0]}")
 HOOKS_DIR_ABSOLUTE=$(cd -- "${HOOKS_DIR}" && pwd)
 . "${HOOKS_DIR_ABSOLUTE}/../lib/shared"
 
-# Clone the VM
-NO_IMAGE_ERROR="Please specify a VM image to use (e.g. ghcr.io/cirruslabs/macos-sonoma-base:latest)"
+# Make sure that the VM image is set
+if [ -z "${BUILDKITE_PLUGIN_TART_IMAGE}" ]
+then
+  print "Please specify a VM image to use (e.g. ghcr.io/cirruslabs/macos-sonoma-base:latest)"
 
-tart clone "${BUILDKITE_PLUGIN_TART_IMAGE:?"${NO_IMAGE_ERROR}"}" "${VM_NAME}"
+  exit 1
+fi
 
-# Run the VM in the background
-nohup tart run "${VM_NAME}" >/dev/null 2>&1 &
+# "always_pull" support
+if [ "${BUILDKITE_PLUGIN_TART_ALWAYS_PULL:-true}" = "true" ]
+then
+  tart pull "${BUILDKITE_PLUGIN_TART_IMAGE}"
+fi
+
+# Clone the VM image
+tart clone "${BUILDKITE_PLUGIN_TART_IMAGE}" "${VM_NAME}"
+
+# Configure "tart run" invocation
+RUN_ARGS=()
+
+# Mount the project's directory
+RUN_ARGS+=("--dir ${BUILDKITE_BUILD_CHECKOUT_PATH}")
+
+# "headless" support
+if [ "${BUILDKITE_PLUGIN_TART_HEADLESS:-true}" = "true" ]
+then
+  RUN_ARGS+=("--no-graphics")
+fi
+
+# "softnet" support
+if [ "${BUILDKITE_PLUGIN_TART_SOFTNET:-false}" = "true" ]
+then
+  RUN_ARGS+=("--net-softnet")
+fi
+
+# Run the VM in background
+nohup tart run ${RUN_ARGS[*]} "${VM_NAME}" >/dev/null 2>&1 &
