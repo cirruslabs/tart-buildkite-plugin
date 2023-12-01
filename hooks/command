@@ -22,5 +22,6 @@ VM_IP=$(tart ip --wait 60 "${VM_NAME}")
 SSH_USERNAME="${BUILDKITE_PLUGIN_TART_SSH_USERNAME:-admin}"
 SSH_PASSWORD="${BUILDKITE_PLUGIN_TART_SSH_PASSWORD:-admin}"
 
-sshpass -p "${SSH_PASSWORD}" ssh -o "StrictHostKeyChecking=no" "${SSH_USERNAME}@${VM_IP}" \
+sshpass -p "${SSH_PASSWORD}" ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" \
+  "${SSH_USERNAME}@${VM_IP}" \
   "cd /Volumes/My\ Shared\ Files/ && zsh -l -c \"${BUILDKITE_COMMAND}\""
